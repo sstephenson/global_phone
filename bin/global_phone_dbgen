@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+require 'global_phone/database_generator'
+require 'open-uri'
+
+REMOTE_URL = "http://libphonenumber.googlecode.com/svn/trunk/resources/PhoneNumberMetaData.xml"
+
+def usage
+  warn "Usage: #$0 [--compact] [--test] [<filename> | <url>]"
+end
+
+def help
+  warn <<-EOS
+
+    Generates a database for the Ruby GlobalNumber library in JSON format
+    and writes it to standard output.
+
+    Specify either a local path or URL pointing to a copy of Google's
+    libphonenumber PhoneNumberMetaData.xml file.
+
+    Omit the filename argument to download and use the latest version of
+    Google's database from:
+      #{REMOTE_URL}
+
+Options:
+    --compact      Strip all whitespace from the JSON output
+    --test         Generate example phone number fixtures for smoke tests
+
+  EOS
+end
+
+path = REMOTE_URL
+method = :record_data
+compact = false
+
+while arg = ARGV.shift
+  case arg
+  when "-c", "--compact"
+    compact = true
+  when "-t", "--test"
+    method = :test_cases
+  when "-h", "--help"
+    usage
+    help
+    exit
+  when /^-/
+    warn "#$0: unknown option `#{arg}'"
+    usage
+    exit 1
+  else
+    path = arg
+    break
+  end
+end
+
+generator = GlobalPhone::DatabaseGenerator.load(open(path).read)
+result = generator.send(method)
+
+if compact
+  puts JSON.generate(result)
+else
+  puts JSON.pretty_generate(result)
+end
