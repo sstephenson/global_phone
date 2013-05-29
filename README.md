@@ -146,6 +146,12 @@ GlobalPhone is heavily inspired by Andreas Gal's [PhoneNumber.js](https://github
 
 ### Version History
 
+**1.0.1** (May 29, 2013)
+
+* GlobalPhone::Number#to_s returns the E.164 international string.
+* Ensure GlobalPhone::Number always returns strings for #national_format, #international_format, and #international_string, regardless of validity.
+* Relax format restrictions to more loosely match available national number patterns.
+
 **1.0.0** (May 28, 2013)
 
 * Initial public release.
