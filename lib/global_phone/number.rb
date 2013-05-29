@@ -33,22 +33,22 @@ module GlobalPhone
       @national_format ||= begin
         if format && result = format.apply(national_string, :national)
           apply_national_prefix_format(result)
+        else
+          national_string
         end
       end
     end
 
     def international_string
-      @international_string ||= begin
-        if international_format
-          international_format.gsub(NON_DIALABLE_CHARS, "")
-        end
-      end
+      @international_string ||= international_format.gsub(NON_DIALABLE_CHARS, "")
     end
 
     def international_format
       @international_format ||= begin
         if format && formatted_number = format.apply(national_string, :international)
           "+#{country_code} #{formatted_number}"
+        else
+          "+#{country_code} #{national_string}"
         end
       end
     end
