@@ -63,7 +63,12 @@ module GlobalPhone
 
     protected
       def format
-        @format ||= region.formats.detect { |format| format.match(national_string) }
+        @format ||= find_format_for(national_string)
+      end
+
+      def find_format_for(string)
+        region.formats.detect { |format| format.match(string) } ||
+        region.formats.detect { |format| format.match(string, false) }
       end
 
       def apply_national_prefix_format(result)
