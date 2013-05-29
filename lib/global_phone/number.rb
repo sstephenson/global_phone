@@ -61,6 +61,10 @@ module GlobalPhone
       "#<#{self.class.name} territory=#{territory.inspect} national_string=#{national_string.inspect}>"
     end
 
+    def to_s
+      international_string
+    end
+
     protected
       def format
         @format ||= find_format_for(national_string)

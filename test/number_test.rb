@@ -49,6 +49,7 @@ module GlobalPhone
     test "international_string" do
       number = context.parse("(312) 555-1212")
       assert_equal "+13125551212", number.international_string
+      assert_equal number.international_string, number.to_s
     end
 
     test "international_format" do
