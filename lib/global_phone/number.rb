@@ -23,6 +23,8 @@ module GlobalPhone
     def_delegator :territory, :country_code
     def_delegator :territory, :national_prefix
     def_delegator :territory, :national_pattern
+    def_delegator :territory, :possible_pattern
+    def_delegator :territory, :valid_number_formats
 
     def initialize(territory, national_string)
       @territory = territory
@@ -54,7 +56,9 @@ module GlobalPhone
     end
 
     def valid?
-      !!(format && national_string =~ national_pattern)
+      (!!(national_string =~ national_pattern) &&
+       !!(national_string =~ possible_pattern) &&
+       match_any_valid_pattern?)
     end
 
     def inspect
@@ -66,6 +70,12 @@ module GlobalPhone
     end
 
     protected
+      def match_any_valid_pattern?
+        valid_number_formats.any? do |formats|
+          formats.all? { |format| national_string =~ format }
+        end
+      end
+
       def format
         @format ||= find_format_for(national_string)
       end

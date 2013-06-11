@@ -15,6 +15,7 @@ module GlobalPhone
       assert_not_nil number.national_format
       assert_not_nil number.international_string
       assert_not_nil number.international_format
+      assert         number.valid?, "expected #{string} to be valid for territory #{territory_name}"
     end
   end
 end
