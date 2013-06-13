@@ -17,16 +17,17 @@ module GlobalPhone
         gsub(NON_DIALABLE_CHARS, "")
     end
 
-    attr_reader :territory, :national_string
+    attr_reader :territory, :national_string, :type
 
     def_delegator :territory, :region
     def_delegator :territory, :country_code
     def_delegator :territory, :national_prefix
-    def_delegator :territory, :national_pattern
+    def_delegator :territory, :general_desc_national_pattern
 
-    def initialize(territory, national_string)
+    def initialize(territory, national_string, type)
       @territory = territory
       @national_string = national_string
+      @type = type
     end
 
     def national_format
@@ -54,7 +55,15 @@ module GlobalPhone
     end
 
     def valid?
-      !!(format && national_string =~ national_pattern)
+      !!(format && national_string =~ general_desc_national_pattern)
+    end
+
+    def fixed_line?
+      @type == :fixed_line
+    end
+
+    def mobile?
+      @type == :mobile
     end
 
     def inspect
