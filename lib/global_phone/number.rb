@@ -22,7 +22,7 @@ module GlobalPhone
     def_delegator :territory, :region
     def_delegator :territory, :country_code
     def_delegator :territory, :national_prefix
-    def_delegator :territory, :national_pattern
+    def_delegator :territory, :general_desc_national_pattern
 
     def initialize(territory, national_string)
       @territory = territory
@@ -54,7 +54,7 @@ module GlobalPhone
     end
 
     def valid?
-      !!(format && national_string =~ national_pattern)
+      !!(format && national_string =~ general_desc_national_pattern)
     end
 
     def inspect
