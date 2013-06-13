@@ -59,11 +59,11 @@ module GlobalPhone
     end
 
     def fixed_line?
-      @type == :fixed_line
+      (@type == :fixed_line) || (@type == :fixed_line_or_mobile)
     end
 
     def mobile?
-      @type == :mobile
+      (@type == :mobile) || (@type == :fixed_line_or_mobile)
     end
 
     def inspect
