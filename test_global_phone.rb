@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'global_phone'
 require 'benchmark'
 
