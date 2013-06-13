@@ -7,6 +7,27 @@ module GlobalPhone
       assert number.valid?
     end
 
+    test "type" do
+      number = context.parse("(312) 555-1212")
+      assert_equal :fixed_line_or_mobile, number.type
+    end
+
+    test "fixed_line?" do
+      number = context.parse("+8602152821021")
+      assert number.fixed_line?
+
+      number = context.parse("+8615800681509")
+      assert !number.fixed_line?
+    end
+
+    test "mobile?" do
+      number = context.parse("+8602152821021")
+      assert !number.mobile?
+
+      number = context.parse("+8615800681509")
+      assert number.mobile?
+    end
+
     test "country_code" do
       number = context.parse("(312) 555-1212")
       assert_equal "1", number.country_code

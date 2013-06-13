@@ -43,7 +43,8 @@ module GlobalPhone
 
     def parse_national_string(string)
       string = normalize(string)
-      Number.new(self, string) if possible?(string)
+      @number_type = number_type(string)
+      Number.new(self, string, @number_type) if possible?(string)
     end
 
     def inspect
@@ -81,13 +82,19 @@ module GlobalPhone
         return :pager if number_matching_desc?(string, pager_possible_pattern, pager_national_pattern)
         return :uan if number_matching_desc?(string, uan_possible_pattern, uan_national_pattern)
         return :voicemail if number_matching_desc?(string, voicemail_possible_pattern, voicemail_national_pattern)
-        return :fixed_line if number_matching_desc?(string, fixed_line_possible_pattern, fixed_line_national_pattern)
+        if number_matching_desc?(string, fixed_line_possible_pattern, fixed_line_national_pattern)
+          if number_matching_desc?(string, mobile_possible_pattern, mobile_national_pattern)
+            return :fixed_line_or_mobile
+          else
+            return :fixed_line
+          end
+        end
         return :mobile if number_matching_desc?(string, mobile_possible_pattern, mobile_national_pattern)
         :unknown
       end
 
       def number_matching_desc?(string, possible_pattern, national_pattern)
-        string =~ (possible_pattern ? possible_pattern : general_desc_possible_pattern) && string =~ national_pattern
+        string =~ /^#{possible_pattern ? possible_pattern : general_desc_possible_pattern}$/ && string =~ /^#{national_pattern}$/
       end
 
       def starts_with_national_prefix?(string)
