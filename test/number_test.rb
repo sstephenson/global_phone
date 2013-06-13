@@ -7,11 +7,6 @@ module GlobalPhone
       assert number.valid?
     end
 
-    test "invalid number" do
-      number = context.parse("555-1212")
-      assert !number.valid?
-    end
-
     test "country_code" do
       number = context.parse("(312) 555-1212")
       assert_equal "1", number.country_code
