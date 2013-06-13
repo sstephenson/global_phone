@@ -51,6 +51,8 @@ module GlobalPhone
       "#<#{self.class.name} country_code=#{country_code} name=#{name}>"
     end
 
+    alias :country_iso :name
+
     protected
       def strip_national_prefix(string)
         if national_prefix_for_parsing

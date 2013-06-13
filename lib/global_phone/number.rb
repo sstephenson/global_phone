@@ -23,6 +23,7 @@ module GlobalPhone
     def_delegator :territory, :country_code
     def_delegator :territory, :national_prefix
     def_delegator :territory, :general_desc_national_pattern
+    def_delegator :territory, :country_iso
 
     def initialize(territory, national_string, type)
       @territory = territory
