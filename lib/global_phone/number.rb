@@ -68,7 +68,7 @@ module GlobalPhone
     end
 
     def inspect
-      "#<#{self.class.name} territory=#{territory.inspect} national_string=#{national_string.inspect}>"
+      "#<#{self.class.name} type=#{type} territory=#{territory.inspect} national_string=#{national_string.inspect}>"
     end
 
     def to_s

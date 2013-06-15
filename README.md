@@ -33,17 +33,38 @@ Parse an international number string into a `GlobalPhone::Number` object:
 
 ```ruby
 number = GlobalPhone.parse('+1-312-555-1212')
-# => #<GlobalPhone::Number territory=#<GlobalPhone::Territory country_code=1 name=US> national_string="3125551212">
+# => #<GlobalPhone::Number type=fixed_line_or_mobile territory=#<GlobalPhone::Territory country_code=1 name=US> national_string="3125551212">
+
+# Try to parse an invalid number
+number = GlobalPhone.parse('+1-312-555-12125')
+# => nil
+
+number = GlobalPhone.parse('+1-905-847-1212')
+# => #<GlobalPhone::Number type=fixed_line_or_mobile territory=#<GlobalPhone::Territory country_code=1 name=CA> national_string="9058471212">
+
+
+number = GlobalPhone.parse('+44 7500 900129')
+#  => #<GlobalPhone::Number type=mobile territory=#<GlobalPhone::Territory country_code=44 name=GB> national_string="7500900129"> 
 ```
 
 Query the country code and likely territory name of the number:
 
 ```ruby
+number = GlobalPhone.parse('+1-312-555-1212')
 number.country_code
 # => "1"
 
 number.territory.name
 # => "US"
+
+number.type
+# => fixed_line_or_mobile
+
+number.fixed_line?
+# => true
+
+number.mobile?
+# => true
 ```
 
 Present the number in national and international formats:
@@ -74,14 +95,14 @@ Parse a number in national format for a given territory:
 
 ```ruby
 number = GlobalPhone.parse("(0) 20-7031-3000", :gb)
-# => #<GlobalPhone::Number territory=#<GlobalPhone::Territory country_code=44 name=GB> national_string="2070313000">
+# => #<GlobalPhone::Number type=fixed_line territory=#<GlobalPhone::Territory country_code=44 name=GB> national_string="2070313000"> 
 ```
 
 Parse an international number using a territory's international dialing prefix:
 
 ```ruby
 number = GlobalPhone.parse("00 1 3125551212", :gb)
-# => #<GlobalPhone::Number territory=#<GlobalPhone::Territory country_code=1 name=US> national_string="3125551212">
+# => #<GlobalPhone::Number type=fixed_line_or_mobile territory=#<GlobalPhone::Territory country_code=1 name=US> national_string="3125551212">
 ```
 
 Set the default territory to Great Britain (territory names are [ISO 3166-1 Alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes):
@@ -91,7 +112,7 @@ GlobalPhone.default_territory_name = :gb
 # => :gb
 
 GlobalPhone.parse("(0) 20-7031-3000")
-# => #<GlobalPhone::Number territory=#<GlobalPhone::Territory country_code=44 name=GB> national_string="2070313000">
+# => #<GlobalPhone::Number type=fixed_line territory=#<GlobalPhone::Territory country_code=44 name=GB> national_string="2070313000"> 
 ```
 
 Shortcuts for validating a phone number:
@@ -104,7 +125,7 @@ GlobalPhone.validate("+442070313000")
 # => true
 
 GlobalPhone.validate("(0) 20-7031-3000")
-# => false
+# => nil
 
 GlobalPhone.validate("(0) 20-7031-3000", :gb)
 # => true
@@ -132,8 +153,6 @@ GlobalPhone currently does not parse emergency numbers or SMS short code numbers
 
 Validation is not definitive and may return false positives, but *should not* return false negatives unless the database is out of date.
 
-Territory heuristics are imprecise. Parsing a number will usually result in the territory being set to the primary territory of the region. For example, Canadian numbers will be parsed with a territory of `US`. (In most cases this does not matter, but if your application needs to perform geolocation using phone numbers, GlobalPhone may not be a good fit.)
-
 ## Development
 
 The GlobalPhone source code is [hosted on GitHub](https://github.com/sstephenson/global_phone). You can check out a copy of the latest code using Git:
@@ -145,6 +164,11 @@ If you've found a bug or have a question, please open an issue on the [issue tra
 GlobalPhone is heavily inspired by Andreas Gal's [PhoneNumber.js](https://github.com/andreasgal/PhoneNumber.js) library.
 
 ### Version History
+
+**1.0.2** (June 15, 2013)
+
+* When an internationally formatted number is used in GlobalPhone.parse, it will determine the territory of the number
+* GlobalPhone::Number has new methods - type (to determine the type of the phone), fixed_line?, mobile?
 
 **1.0.1** (May 29, 2013)
 
