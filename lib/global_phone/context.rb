@@ -30,7 +30,7 @@ module GlobalPhone
 
     def validate(string, territory_name = default_territory_name)
       number = parse(string, territory_name)
-      number && number.valid?
+      number && number.valid? ? true : false
     end
   end
 end
