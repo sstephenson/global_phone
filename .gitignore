@@ -1,2 +1,5 @@
 *.gem
 global_phone.json
+
+/.ruby-gemset
+/.ruby-version
