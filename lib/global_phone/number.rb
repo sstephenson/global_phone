@@ -31,8 +31,8 @@ module GlobalPhone
 
     def national_format
       @national_format ||= begin
-        if format && result = format.apply(national_string, :national)
-          apply_national_prefix_format(result)
+        if format
+          national_string_with_prefix
         else
           national_string
         end
@@ -51,6 +51,10 @@ module GlobalPhone
           "+#{country_code} #{national_string}"
         end
       end
+    end
+
+    def area_code
+      @area_code ||= formatted_national_prefix.gsub(/[^\d]/, '')
     end
 
     def valid?
@@ -75,17 +79,36 @@ module GlobalPhone
         region.formats.detect { |format| format.match(string, false) }
       end
 
-      def apply_national_prefix_format(result)
-        prefix = national_prefix_formatting_rule
-        return result unless prefix && match = result.match(SPLIT_FIRST_GROUP)
+      def formatted_national_string
+        @formatted_national_string ||= format.apply(national_string, :national)
+      end
 
-        prefix = prefix.gsub("$NP", national_prefix)
-        prefix = prefix.gsub("$FG", match[1])
-        result = "#{prefix} #{match[2]}"
+      def national_string_parts
+        @national_string_parts ||= formatted_national_string.match(SPLIT_FIRST_GROUP)
+      end
+
+      def area_code_suffix
+        @area_code_suffix ||= national_string_parts[1]
+      end
+
+      def local_number
+        @local_number ||= national_string_parts[2]
+      end
+
+      def formatted_national_prefix
+        @formatted_national_prefix ||= begin
+          national_prefix_formatting_rule.gsub("$NP", national_prefix).gsub("$FG", area_code_suffix)
+        end
+      end
+
+      def national_string_with_prefix
+        @national_string_with_prefix ||= national_prefix_formatting_rule && national_string_parts ?
+          "#{formatted_national_prefix} #{local_number}" : formatted_national_string
       end
 
       def national_prefix_formatting_rule
-        format.national_prefix_formatting_rule || territory.national_prefix_formatting_rule
+        @national_prefix_formatting_rule ||=
+          format.national_prefix_formatting_rule || territory.national_prefix_formatting_rule
       end
   end
 end

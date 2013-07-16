@@ -56,5 +56,13 @@ module GlobalPhone
       number = context.parse("(312) 555-1212")
       assert_equal "+1 312-555-1212", number.international_format
     end
+
+    test "area_code" do
+      number = context.parse("+61 3 9876 0010")
+      assert_equal "03", number.area_code
+
+      number = context.parse("+44 (0) 20-7031-3000")
+      assert_equal "020", number.area_code
+    end
   end
 end
