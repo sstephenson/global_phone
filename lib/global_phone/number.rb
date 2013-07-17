@@ -8,7 +8,7 @@ module GlobalPhone
     VALID_ALPHA_CHARS  = /[a-zA-Z]/
     LEADING_PLUS_CHARS = /^\++/
     NON_DIALABLE_CHARS = /[^,#+\*\d]/
-    SPLIT_FIRST_GROUP  = /^(\d+)(.*)$/
+    SPLIT_FIRST_GROUP  = /^(\d+)\W*(.*)$/
 
     def self.normalize(string)
       string.to_s.
@@ -57,6 +57,10 @@ module GlobalPhone
       @area_code ||= formatted_national_prefix.gsub(/[^\d]/, '')
     end
 
+    def local_number
+      @local_number ||= national_string_parts[2]
+    end
+
     def valid?
       !!(format && national_string =~ national_pattern)
     end
@@ -89,10 +93,6 @@ module GlobalPhone
 
       def area_code_suffix
         @area_code_suffix ||= national_string_parts[1]
-      end
-
-      def local_number
-        @local_number ||= national_string_parts[2]
       end
 
       def formatted_national_prefix

@@ -64,5 +64,13 @@ module GlobalPhone
       number = context.parse("+44 (0) 20-7031-3000")
       assert_equal "020", number.area_code
     end
+
+    test "local_number" do
+      number = context.parse("+61 3 9876 0010")
+      assert_equal "9876 0010", number.local_number
+
+      number = context.parse("+44 (0) 20-7031-3000")
+      assert_equal "7031 3000", number.local_number
+    end
   end
 end

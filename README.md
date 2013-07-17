@@ -146,6 +146,11 @@ GlobalPhone is heavily inspired by Andreas Gal's [PhoneNumber.js](https://github
 
 ### Version History
 
+**1.0.2** (Unreleased)
+
+* GlobalPhone::Number#area_code returns the national area code.
+* GlobalPhone::Number#local_number returns the local number.
+
 **1.0.1** (May 29, 2013)
 
 * GlobalPhone::Number#to_s returns the E.164 international string.
