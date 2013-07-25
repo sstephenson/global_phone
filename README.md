@@ -1,6 +1,6 @@
 # GlobalPhone
 
-[![Build Status](https://travis-ci.org/locochris/global_phone.png)](https://travis-ci.org/locochris/global_phone)
+[![Build Status](https://travis-ci.org/sstephenson/global_phone.png)](https://travis-ci.org/sstephenson/global_phone)
 [![Gem Version](https://badge.fury.io/rb/global_phone.png)](http://badge.fury.io/rb/global_phone)
 [![Dependency Status](https://gemnasium.com/sstephenson/global_phone.png)](https://gemnasium.com/sstephenson/global_phone)
 
