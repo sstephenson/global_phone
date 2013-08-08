@@ -2,6 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/global_phone.png)](http://badge.fury.io/rb/global_phone)
 [![Dependency Status](https://gemnasium.com/sstephenson/global_phone.png)](https://gemnasium.com/sstephenson/global_phone)
+[![Still Maintained](http://stillmaintained.com/sstephenson/global_phone.png)](http://stillmaintained.com/sstephenson/global_phone)
 
 GlobalPhone parses, validates, and formats local and international phone numbers according to the [E.164 standard](http://en.wikipedia.org/wiki/E.164).
 
