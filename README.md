@@ -126,6 +126,26 @@ GlobalPhone.normalize("(0) 20-7031-3000", :gb)
 # => "+442070313000"
 ```
 
+Validate global phone numbers in Rails 3.x and ActiveModel.
+
+```ruby
+class Person < ActiveRecord::Base
+  validates :home_phone, :global_phone => true
+end
+
+Person.new(home_phone: '+61 3 9876 0010').valid?
+# => true
+
+class User < ActiveRecord::Base
+  attribute :work_country_code
+
+  validates :work_phone, :global_phone => { :using => :work_country_code }
+end
+
+User.new(work_phone: '03 9876 0010').valid?
+# => true
+```
+
 ## Caveats
 
 GlobalPhone currently does not parse emergency numbers or SMS short code numbers.
@@ -145,6 +165,10 @@ If you've found a bug or have a question, please open an issue on the [issue tra
 GlobalPhone is heavily inspired by Andreas Gal's [PhoneNumber.js](https://github.com/andreasgal/PhoneNumber.js) library.
 
 ### Version History
+
+**1.0.2** (Unreleased)
+
+* Add GlobalPhone ActiveModel Validator
 
 **1.0.1** (May 29, 2013)
 
