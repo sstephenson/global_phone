@@ -162,6 +162,6 @@ GlobalPhone is heavily inspired by Andreas Gal's [PhoneNumber.js](https://github
 
 ### License
 
-Copyright &copy; 2013 Sam Stephenson
+Copyright &copy; 2014 Sam Stephenson
 
 Released under the MIT license. See [`LICENSE`](LICENSE) for details.
