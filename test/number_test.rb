@@ -63,6 +63,10 @@ module GlobalPhone
 
       number = context.parse("+44 (0) 20-7031-3000")
       assert_equal "020", number.area_code
+
+      # Hong Kong has no area code
+      number = context.parse("+852 2699 2838")
+      assert_equal nil, number.area_code
     end
 
     test "local_number" do
@@ -71,6 +75,9 @@ module GlobalPhone
 
       number = context.parse("+44 (0) 20-7031-3000")
       assert_equal "7031 3000", number.local_number
+
+      number = context.parse("+852 2699 2838")
+      assert_equal "2699 2838", number.local_number
     end
   end
 end

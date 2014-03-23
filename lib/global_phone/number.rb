@@ -54,11 +54,11 @@ module GlobalPhone
     end
 
     def area_code
-      @area_code ||= formatted_national_prefix.gsub(/[^\d]/, '')
+      @area_code ||= formatted_national_prefix.gsub(/[^\d]/, '') if formatted_national_prefix
     end
 
     def local_number
-      @local_number ||= national_string_parts[2]
+      @local_number ||= area_code ? national_string_parts[2] : national_format
     end
 
     def valid?
@@ -97,7 +97,8 @@ module GlobalPhone
 
       def formatted_national_prefix
         @formatted_national_prefix ||= begin
-          national_prefix_formatting_rule.gsub("$NP", national_prefix).gsub("$FG", area_code_suffix)
+          national_prefix_formatting_rule.gsub("$NP", national_prefix).gsub("$FG", area_code_suffix) if
+            national_prefix_formatting_rule
         end
       end
 
