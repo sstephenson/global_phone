@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.description = "GlobalPhone parses, validates, and formats local and international phone numbers according to the E.164 standard using the rules specified in Google's libphonenumber database."
   s.license = "MIT"
 
-  s.files = Dir["README.md", "LICENSE", "lib/**/*.rb"]
+  s.files = Dir["README.md", "LICENSE", "lib/**/*.rb", "bin/*"]
   s.files.delete_if { |filename| filename =~ /database_generator/ }
 
   s.authors = ["Sam Stephenson"]
