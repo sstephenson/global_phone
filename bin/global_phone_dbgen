@@ -52,8 +52,12 @@ while arg = ARGV.shift
   end
 end
 
-generator = GlobalPhone::DatabaseGenerator.load(open(path).read)
-result = generator.send(method)
+begin
+  generator = GlobalPhone::DatabaseGenerator.load(open(path).read)
+  result = generator.send(method)
+rescue => e
+  puts "Could not retrieve remote XML: #{e}"
+end
 
 if compact
   puts JSON.generate(result)
