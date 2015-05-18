@@ -10,7 +10,10 @@ module GlobalPhone
 
     def match(national_string, match_leading_digits = true)
       return false if match_leading_digits && leading_digits && national_string !~ leading_digits
-      national_string =~ pattern
+      if match = pattern.match(national_string)
+        return match[0].length == national_string.length
+      end
+      false
     end
 
     def format_replacement_string(type)
