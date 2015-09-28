@@ -2,7 +2,7 @@
 require 'global_phone/database_generator'
 require 'open-uri'
 
-REMOTE_URL = "http://libphonenumber.googlecode.com/svn/trunk/resources/PhoneNumberMetadata.xml"
+REMOTE_URL = "https://raw.githubusercontent.com/googlei18n/libphonenumber/master/resources/PhoneNumberMetadata.xml"
 
 def usage
   warn "Usage: #$0 [--compact] [--test] [<filename> | <url>]"
