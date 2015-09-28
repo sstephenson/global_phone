@@ -4,9 +4,14 @@ require 'global_phone/record'
 module GlobalPhone
   class Territory < Record
     field 0, :name
-    field 1, :possible_pattern do |p| /^#{p}$/ end
-    field 2, :national_pattern do |p| /^#{p}$/ end
+    field 1, :possible_pattern do |p| /^(#{p})$/ end
+    field 2, :national_pattern do |p| /^(#{p})$/ end
     field 3, :national_prefix_formatting_rule
+    field 4, :valid_number_formats do |formats|
+      formats.map do |format|
+        format.map { |f| /^(#{f})$/ }
+      end
+    end
 
     attr_reader :region
 
@@ -32,15 +37,14 @@ module GlobalPhone
 
     protected
       def strip_national_prefix(string)
-        if national_prefix_for_parsing
+        if string =~ national_prefix_for_parsing
           transform_rule = national_prefix_transform_rule || ""
           transform_rule = transform_rule.gsub("$", "\\")
           string_without_prefix = string.sub(national_prefix_for_parsing, transform_rule)
         elsif starts_with_national_prefix?(string)
           string_without_prefix = string[national_prefix.length..-1]
         end
-
-        possible?(string_without_prefix) ? string_without_prefix : string
+        national_number?(string_without_prefix) ? string_without_prefix : string
       end
 
       def normalize(string)
@@ -48,7 +52,11 @@ module GlobalPhone
       end
 
       def possible?(string)
-        string =~ possible_pattern
+        !!(string =~ possible_pattern)
+      end
+
+      def national_number?(string)
+        !!(string =~ national_pattern)
       end
 
       def starts_with_national_prefix?(string)

@@ -61,7 +61,7 @@ module GlobalPhone
       end
 
       def example_number_types_to_exclude
-        %w( emergency shortCode )
+        %w( emergency shortCode pager voicemail )
       end
 
       def compile_region(territory_nodes, country_code)
@@ -101,8 +101,18 @@ module GlobalPhone
           territory_name(node),
           pattern(node, "generalDesc possibleNumberPattern"),
           pattern(node, "generalDesc nationalNumberPattern"),
-          squish(node["nationalPrefixFormattingRule"])
+          squish(node["nationalPrefixFormattingRule"]),
+          compile_possible_formats(node)
         ]
+      end
+
+      def compile_possible_formats(node)
+        %w( fixedLine mobile voip tollFree premiumRate sharedCost uan personalNumber ).map do |possible_format|
+          [
+            pattern(node, "#{possible_format} possibleNumberPattern"),
+            pattern(node, "#{possible_format} nationalNumberPattern")
+          ].reject { |pattern| pattern.nil? || pattern =~ /^NA$/i }
+        end.reject(&:empty?)
       end
 
       def compile_formats(territory_nodes)
