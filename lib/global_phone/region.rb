@@ -56,7 +56,11 @@ module GlobalPhone
       end
 
       def find_first_parsed_national_string_from_territories(string)
-        Utils.map_detect(territories) { |territory| territory.parse_national_string(string) }
+        territories.each do |territory|
+          number = territory.parse_national_string(string)
+          return number if number && number.valid?
+        end
+        nil
       end
   end
 end

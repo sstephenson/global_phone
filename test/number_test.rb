@@ -7,6 +7,11 @@ module GlobalPhone
       assert number.valid?
     end
 
+    test "valid number with multiple territories" do
+      number = context.parse("+7 717 270 2999")
+      assert_equal db.territory(:kz), number.territory
+    end
+
     test "invalid number" do
       number = context.parse("555-1212")
       assert !number.valid?
