@@ -4,7 +4,7 @@ GlobalPhone parses, validates, and formats local and international phone numbers
 
 **Store and display phone numbers in your app.** Accept phone number input in national or international format. Convert phone numbers to international strings (`+13125551212`) for storage and retrieval. Present numbers in national format (`(312) 555-1212`) in your UI.
 
-**Designed with the future in mind.** GlobalPhone uses format specifications from Google's open-source [libphonenumber](http://code.google.com/p/libphonenumber/) database. No need to upgrade the library when a new phone format is introduced—just generate a new copy of the database and check it into your app.
+**Designed with the future in mind.** GlobalPhone uses format specifications from Google's open-source [libphonenumber](https://github.com/googlei18n/libphonenumber) database. No need to upgrade the library when a new phone format is introduced—just generate a new copy of the database and check it into your app.
 
 **Pure Ruby. No dependencies.** GlobalPhone is designed for Ruby 1.9.3 and up. (Works in 1.8.7, too—just bring your own `json` gem.)
 
