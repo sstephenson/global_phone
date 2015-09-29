@@ -8,6 +8,7 @@ module GlobalPhone
           return result
         end
       end
+      nil
     end
   end
 end

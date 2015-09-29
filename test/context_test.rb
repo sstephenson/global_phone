@@ -61,6 +61,11 @@ module GlobalPhone
       assert_equal "+442070313000", context.normalize("(0) 20-7031-3000", :gb)
     end
 
+    test "validateing an invalid number returns nil" do
+      assert !context.validate("+0651816068")
+      assert_nil context.validate("+0651816068")
+    end
+
     def assert_parses(string, assertions)
       territory_name = assertions.delete(:with_territory) || context.default_territory_name
       number = context.parse(string, territory_name)
