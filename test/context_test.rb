@@ -27,6 +27,11 @@ module GlobalPhone
         :country_code => "1", :national_string => "3125551212"
     end
 
+    test "parsing international number with country code prefix but no plus" do
+      assert_parses "(504) 2221-6592", :with_territory => :hn,
+        :country_code => "504", :national_string => "22216592"
+    end
+
     test "changing the default territory" do
       assert_does_not_parse "(0) 20-7031-3000"
 

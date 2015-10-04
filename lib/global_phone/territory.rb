@@ -31,20 +31,22 @@ module GlobalPhone
     end
 
     protected
-      def strip_national_prefix(string)
+      def strip_prefixes(string)
         if national_prefix_for_parsing
           transform_rule = national_prefix_transform_rule || ""
           transform_rule = transform_rule.gsub("$", "\\")
           string_without_prefix = string.sub(national_prefix_for_parsing, transform_rule)
         elsif starts_with_national_prefix?(string)
           string_without_prefix = string[national_prefix.length..-1]
+        elsif starts_with_country_code?(string)
+          string_without_prefix = string[country_code.length..-1]
         end
 
         possible?(string_without_prefix) ? string_without_prefix : string
       end
 
       def normalize(string)
-        strip_national_prefix(Number.normalize(string))
+        strip_prefixes(Number.normalize(string))
       end
 
       def possible?(string)
@@ -53,6 +55,10 @@ module GlobalPhone
 
       def starts_with_national_prefix?(string)
         national_prefix && string.index(national_prefix) == 0
+      end
+
+      def starts_with_country_code?(string)
+        country_code && string.index(country_code) == 0
       end
   end
 end
