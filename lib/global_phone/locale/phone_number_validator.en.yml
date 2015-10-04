@@ -1,0 +1,4 @@
+en:
+  errors:
+    messages:
+      invalid_phone_number: "is not a valid phone number in region - %{country_code} (Try using international format '+61 3 9876 0010')"

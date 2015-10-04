@@ -1,5 +1,8 @@
 require 'test/unit'
+require 'mocha/setup'
+require 'supermodel'
 require 'global_phone'
+require_relative '../lib/global_phone/validator'
 require 'json'
 
 module GlobalPhone
