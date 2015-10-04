@@ -54,7 +54,11 @@ module GlobalPhone
     end
 
     def valid?
-      !!(format && national_string =~ national_pattern)
+      return unless !!format
+      if match = national_pattern.match(national_string)
+        return match[0] == national_string
+      end
+      false
     end
 
     def inspect

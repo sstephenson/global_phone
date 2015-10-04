@@ -61,5 +61,26 @@ module GlobalPhone
       number = context.parse("(312) 555-1212")
       assert_equal "+1 312-555-1212", number.international_format
     end
+
+    test "partial matches do not validate" do
+      # Guatemala has eight digit phone numbers, but the number 5555
+      # 1234 123 still got through the matcher.
+      # 
+      # The regex is /^[2-7]\d{7}|1[89]\d{9}$/, but with =~ matching a
+      # partial match is still possible.
+      # 
+      # I think this might actually be a broken regex, but changing
+      # the code seems better than mucking about with all the regex's
+      # from google.
+      number = context.parse("5555 1234 123", :gt)
+      assert !number || !number.valid?
+    end
+
+    test "national format with or in regex still works with correct number" do
+      number = context.parse("5555 2134", :gt)
+      assert number.valid?
+    end
+
+
   end
 end
