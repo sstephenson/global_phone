@@ -8,7 +8,7 @@ module GlobalPhone
     VALID_ALPHA_CHARS  = /[a-zA-Z]/
     LEADING_PLUS_CHARS = /^\++/
     NON_DIALABLE_CHARS = /[^,#+\*\d]/
-    SPLIT_FIRST_GROUP  = /^(\d+)(.*)$/
+    SPLIT_FIRST_GROUP  = /^(\d+)\W*(.*)$/
 
     def self.normalize(string)
       string.to_s.
