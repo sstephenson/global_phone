@@ -65,7 +65,7 @@ module GlobalPhone
       international_string
     end
 
-    protected
+    private
       def format
         @format ||= find_format_for(national_string)
       end

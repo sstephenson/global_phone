@@ -41,7 +41,7 @@ module GlobalPhone
       "#<#{self.class.name} country_code=#{country_code} territories=[#{territory_names.join(",")}]>"
     end
 
-    protected
+    private
       def territory_names
         territory_record_data.map(&:first)
       end
