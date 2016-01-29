@@ -1,3 +1,4 @@
+require 'json'
 require 'global_phone/region'
 
 module GlobalPhone
@@ -9,7 +10,6 @@ module GlobalPhone
     end
 
     def self.load(json)
-      require 'json'
       new(JSON.parse(json))
     end
 
