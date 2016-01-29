@@ -72,12 +72,12 @@ module GlobalPhone
     end
 
     test 'finding region by string' do
-      assert_found_territory_for_string('1', {country_code: '1', country_name: 'US'})
-      assert_found_territory_for_string('+1', {country_code: '1', country_name: 'US'})
-      assert_found_territory_for_string('131', {country_code: '1', country_name: 'US'})
-      assert_found_territory_for_string('+375', {country_code: '375', country_name: 'BY'})
+      assert_found_territory_for_country_code('1', {country_code: '1', country_name: 'US'})
+      assert_found_territory_for_country_code('+1', {country_code: '1', country_name: 'US'})
+      assert_found_territory_for_country_code('131', {country_code: '1', country_name: 'US'})
+      assert_found_territory_for_country_code('+375', {country_code: '375', country_name: 'BY'})
 
-      assert_not_found_territory_for_string('+9')
+      assert_not_found_territory_for_country_code('+9')
     end
 
     def assert_parses(string, assertions)
@@ -88,14 +88,14 @@ module GlobalPhone
         { :country_code => number.country_code, :national_string => number.national_string })
     end
 
-    def assert_found_territory_for_string(string, assertions)
-      territory = context.territory_for_string(string)
+    def assert_found_territory_for_country_code(string, assertions)
+      territory = context.territory_for_country_code(string)
 
       assert_equal(assertions, {country_code: territory.country_code, country_name: territory.name})
     end
 
-    def assert_not_found_territory_for_string(string)
-      territory = context.territory_for_string(string)
+    def assert_not_found_territory_for_country_code(string)
+      territory = context.territory_for_country_code(string)
 
       assert_nil territory
     end

@@ -48,7 +48,7 @@ module GlobalPhone
       "#<#{self.class.name}>"
     end
 
-    def region_for_string(string)
+    def region_for_country_code(string)
       country_code_candidates_for(strip_leading_plus(string)).each do |country_code|
         if found_region = region(country_code)
           return found_region
@@ -62,7 +62,7 @@ module GlobalPhone
     def parse_international_string(string)
       string = strip_leading_plus(Number.normalize(string))
 
-      if region = region_for_string(string)
+      if region = region_for_country_code(string)
         region.parse_national_string(string)
       end
     end

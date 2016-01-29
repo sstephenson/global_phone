@@ -23,8 +23,8 @@ module GlobalPhone
       db.parse(string, territory_name)
     end
 
-    def territory_for_string(string)
-      region = db.region_for_string(string)
+    def territory_for_country_code(string)
+      region = db.region_for_country_code(string)
       return unless region
       region.territory_for_contry_code
     end
