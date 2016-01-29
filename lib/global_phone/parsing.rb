@@ -18,16 +18,17 @@ module GlobalPhone
       end
     end
 
-    def parse_international_string(string)
-      string = Number.normalize(string)
-      string = strip_leading_plus(string) if starts_with_plus?(string)
+    private
 
-      if region = region_for_string(string)
-        region.parse_national_string(string)
+      def parse_international_string(string)
+        string = Number.normalize(string)
+        string = strip_leading_plus(string) if starts_with_plus?(string)
+
+        if region = region_for_string(string)
+          region.parse_national_string(string)
+        end
       end
-    end
 
-    protected
       def starts_with_plus?(string)
         string[0, 1] == "+"
       end
