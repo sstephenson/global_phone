@@ -1,4 +1,3 @@
-require 'global_phone/utils'
 require 'global_phone/context'
 
 module GlobalPhone

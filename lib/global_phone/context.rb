@@ -23,6 +23,12 @@ module GlobalPhone
       db.parse(string, territory_name)
     end
 
+    def territory_for_string(string)
+      region = db.region_for_string(string)
+      return unless region
+      region.territory_for_contry_code
+    end
+
     def normalize(string, territory_name = default_territory_name)
       number = parse(string, territory_name)
       number.international_string if number

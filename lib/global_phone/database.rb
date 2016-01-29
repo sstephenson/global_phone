@@ -48,11 +48,19 @@ module GlobalPhone
       "#<#{self.class.name}>"
     end
 
+    def region_for_string(string)
+      country_code_candidates_for(strip_leading_plus(string)).each do |country_code|
+        if found_region = region(country_code)
+          return found_region
+        end
+      end
+      nil
+    end
+
     private
 
     def parse_international_string(string)
-      string = Number.normalize(string)
-      string = strip_leading_plus(string) if starts_with_plus?(string)
+      string = strip_leading_plus(Number.normalize(string))
 
       if region = region_for_string(string)
         region.parse_national_string(string)
@@ -64,16 +72,15 @@ module GlobalPhone
     end
 
     def strip_leading_plus(string)
-      string[1..-1]
+      if starts_with_plus?(string)
+        string[1..-1]
+      else
+        string
+      end
     end
 
     def strip_international_prefix(territory, string)
       string.sub(territory.international_prefix, "")
-    end
-
-    def region_for_string(string)
-      candidates = country_code_candidates_for(string)
-      Utils.map_detect(candidates) { |country_code| region(country_code) }
     end
 
     def country_code_candidates_for(string)

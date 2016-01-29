@@ -71,11 +71,33 @@ module GlobalPhone
       assert_nil context.validate("+0651816068")
     end
 
+    test 'finding region by string' do
+      assert_found_territory_for_string('1', {country_code: '1', country_name: 'US'})
+      assert_found_territory_for_string('+1', {country_code: '1', country_name: 'US'})
+      assert_found_territory_for_string('131', {country_code: '1', country_name: 'US'})
+      assert_found_territory_for_string('+375', {country_code: '375', country_name: 'BY'})
+
+      assert_not_found_territory_for_string('+9')
+    end
+
     def assert_parses(string, assertions)
       territory_name = assertions.delete(:with_territory) || context.default_territory_name
       number = context.parse(string, territory_name)
       assert_kind_of Number, number
-      assert_equal({ :country_code => number.country_code, :national_string => number.national_string }, assertions)
+      assert_equal(assertions,
+        { :country_code => number.country_code, :national_string => number.national_string })
+    end
+
+    def assert_found_territory_for_string(string, assertions)
+      territory = context.territory_for_string(string)
+
+      assert_equal(assertions, {country_code: territory.country_code, country_name: territory.name})
+    end
+
+    def assert_not_found_territory_for_string(string)
+      territory = context.territory_for_string(string)
+
+      assert_nil territory
     end
 
     def assert_does_not_parse(string, options = {})

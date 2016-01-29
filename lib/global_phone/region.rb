@@ -22,7 +22,7 @@ module GlobalPhone
 
     def territory(name)
       name = name.to_s.upcase
-      territories.detect { |region| region.name == name }
+      territories.detect { |territory| territory.name == name }
     end
 
     def has_territory?(name)
@@ -35,6 +35,10 @@ module GlobalPhone
         string = strip_country_code(string)
         find_first_parsed_national_string_from_territories(string)
       end
+    end
+
+    def territory_for_contry_code
+      territories.first
     end
 
     def inspect
