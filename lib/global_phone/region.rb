@@ -1,7 +1,6 @@
 require 'global_phone/format'
 require 'global_phone/record'
 require 'global_phone/territory'
-require 'global_phone/utils'
 
 module GlobalPhone
   class Region < Record
