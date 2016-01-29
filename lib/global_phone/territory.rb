@@ -30,7 +30,7 @@ module GlobalPhone
       "#<#{self.class.name} country_code=#{country_code} name=#{name}>"
     end
 
-    protected
+    private
       def strip_prefixes(string)
         if national_prefix_for_parsing
           transform_rule = national_prefix_transform_rule || ""

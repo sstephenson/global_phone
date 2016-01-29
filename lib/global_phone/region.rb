@@ -1,7 +1,6 @@
 require 'global_phone/format'
 require 'global_phone/record'
 require 'global_phone/territory'
-require 'global_phone/utils'
 
 module GlobalPhone
   class Region < Record
@@ -23,7 +22,7 @@ module GlobalPhone
 
     def territory(name)
       name = name.to_s.upcase
-      territories.detect { |region| region.name == name }
+      territories.detect { |territory| territory.name == name }
     end
 
     def has_territory?(name)
@@ -38,11 +37,15 @@ module GlobalPhone
       end
     end
 
+    def territory_for_contry_code
+      territories.first
+    end
+
     def inspect
       "#<#{self.class.name} country_code=#{country_code} territories=[#{territory_names.join(",")}]>"
     end
 
-    protected
+    private
       def territory_names
         territory_record_data.map(&:first)
       end

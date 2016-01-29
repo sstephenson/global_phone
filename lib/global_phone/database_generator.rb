@@ -35,7 +35,7 @@ module GlobalPhone
       "#<#{self.class.name} (#{doc.search("*").size} elements)>"
     end
 
-    protected
+    private
       def territory_nodes
         doc.search("territory")
       end
