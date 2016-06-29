@@ -38,7 +38,7 @@ module GlobalPhone
           string_without_prefix = string.sub(national_prefix_for_parsing, transform_rule)
         elsif starts_with_national_prefix?(string)
           string_without_prefix = string[national_prefix.length..-1]
-        elsif starts_with_country_code?(string)
+        elsif !possible?(string) && starts_with_country_code?(string)
           string_without_prefix = string[country_code.length..-1]
         end
 
