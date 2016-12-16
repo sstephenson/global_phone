@@ -41,7 +41,7 @@ while arg = ARGV.shift
   when "-h", "--help"
     usage
     help
-    exit
+    exit 0
   when /^-/
     warn "#$0: unknown option `#{arg}'"
     usage
