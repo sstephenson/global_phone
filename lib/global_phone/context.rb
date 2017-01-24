@@ -19,8 +19,8 @@ module GlobalPhone
       @default_territory_name = territory_name.to_s.intern
     end
 
-    def parse(string, territory_name = default_territory_name)
-      db.parse(string, territory_name)
+    def parse(string, territory_name = default_territory_name, skip_e161=false)
+      db.parse(string, territory_name, skip_e161)
     end
 
     def normalize(string, territory_name = default_territory_name)
