@@ -3,8 +3,8 @@ require 'global_phone/utils'
 
 module GlobalPhone
   module Parsing
-    def parse(string, territory_name)
-      string = Number.normalize(string)
+    def parse(string, territory_name, skip_e161=false)
+      string = Number.normalize(string, skip_e161)
       territory = self.territory(territory_name)
       raise ArgumentError, "unknown territory `#{territory_name}'" unless territory
 

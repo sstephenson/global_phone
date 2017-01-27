@@ -10,11 +10,11 @@ module GlobalPhone
     NON_DIALABLE_CHARS = /[^,#+\*\d]/
     SPLIT_FIRST_GROUP  = /^(\d+)(.*)$/
 
-    def self.normalize(string)
-      string.to_s.
-        gsub(VALID_ALPHA_CHARS) { |c| E161_MAPPING[c.downcase] }.
-        gsub(LEADING_PLUS_CHARS, "+").
-        gsub(NON_DIALABLE_CHARS, "")
+    def self.normalize(string, skip_e161=false)
+      str = string.to_s
+
+      str = str.gsub(VALID_ALPHA_CHARS) { |c| E161_MAPPING[c.downcase] } unless skip_e161
+      str.gsub(LEADING_PLUS_CHARS, '+').gsub(NON_DIALABLE_CHARS, '')
     end
 
     attr_reader :territory, :national_string
