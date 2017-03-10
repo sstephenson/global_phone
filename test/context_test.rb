@@ -22,6 +22,11 @@ module GlobalPhone
         :country_code => "44", :national_string => "2070313000"
     end
 
+    test "parsing national number for given territory with leading country code" do
+      assert_parses "3914172422", :with_territory => :it,
+                    :country_code => "39", :national_string => "3914172422"
+    end
+
     test "parsing international number with prefix" do
       assert_parses "00 1 3125551212", :with_territory => :gb,
         :country_code => "1", :national_string => "3125551212"
