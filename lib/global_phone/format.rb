@@ -15,7 +15,7 @@ module GlobalPhone
 
     def format_replacement_string(type)
       format_rule = send(:"#{type}_format_rule")
-      format_rule.gsub("$", "\\") if format_rule && format_rule != "NA"
+      format_rule.tr("$", "\\") if format_rule && format_rule != "NA"
     end
 
     def apply(national_string, type)

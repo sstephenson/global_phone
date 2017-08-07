@@ -54,7 +54,7 @@ module GlobalPhone
     end
 
     def valid?
-      !!(format && national_string =~ national_pattern)
+      territory.valid?(national_string)
     end
 
     def inspect
@@ -66,9 +66,10 @@ module GlobalPhone
     end
 
     protected
-      def format
-        @format ||= region.formats.detect { |format| format.match(national_string) }
-      end
+
+    def format
+      @format ||= region.formats.detect { |format| format.match(national_string) }
+    end
 
       def apply_national_prefix_format(result)
         prefix = national_prefix_formatting_rule
