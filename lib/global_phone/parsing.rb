@@ -1,12 +1,14 @@
 require 'global_phone/number'
 require 'global_phone/utils'
+require 'global_phone/logger'
 
 module GlobalPhone
   module Parsing
     def parse(string, territory_name)
       string = Number.normalize(string)
       territory = self.territory(territory_name)
-      raise ArgumentError, "unknown territory `#{territory_name}'" unless territory
+
+      GlobalPhone.logger.warn "unknown territory `#{territory_name}'" unless territory
 
       if starts_with_plus?(string)
         parse_international_string(string)
