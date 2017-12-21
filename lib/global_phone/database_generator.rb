@@ -36,6 +36,7 @@ module GlobalPhone
     end
 
     protected
+
       def territory_nodes
         doc.search("territory")
       end
@@ -55,13 +56,9 @@ module GlobalPhone
       end
 
       def example_numbers_selector
-        "./*[not(" + example_number_types_to_exclude.map do |type|
+        "./*[" + phone_number_types.map do |type|
           "self::#{type}"
-        end.join(" or ") + ")]/exampleNumber"
-      end
-
-      def example_number_types_to_exclude
-        %w( emergency shortCode )
+        end.join(" or ") + "]/exampleNumber"
       end
 
       def compile_region(territory_nodes, country_code)
@@ -96,14 +93,50 @@ module GlobalPhone
         [territories, main_territory_node]
       end
 
-      def compile_territory(node)
-        [
-          territory_name(node),
-          pattern(node, "generalDesc possibleNumberPattern"),
-          pattern(node, "generalDesc nationalNumberPattern"),
-          squish(node["nationalPrefixFormattingRule"])
-        ]
+    def possible_lengths_for_territory_node(node)
+      name = territory_name(node)
+      return [] if name == '001'
+      node.search(possible_lengths_selector).flat_map { |child_node| parse_possible_lengths(child_node.text) }.uniq.sort
+    end
+
+    def possible_lengths_selector
+      './*[' + phone_number_types.map do |type|
+        "self::#{type}"
+      end.join(' or ') + "]/possibleLengths/@*[name()='national' or name()='localOnly']"
+    end
+
+    def parse_possible_lengths(lengths)
+      lengths.split(',').flat_map do |length_set|
+        if length_set =~ /^\[(\d+)-(\d+)\]$/
+          (Regexp.last_match(1).to_i..Regexp.last_match(2).to_i).to_a
+        else
+          length_set.to_i
+        end
       end
+    end
+
+    def phone_number_types
+      %w(fixedLine mobile pager personalNumber premiumRate sharedCost tollFree uan voicemail voip)
+    end
+
+    def compile_territory(node)
+      [
+        territory_name(node),
+        pattern(node, "generalDesc nationalNumberPattern"),
+        squish(node["nationalPrefixFormattingRule"]),
+        possible_lengths_for_territory_node(node),
+        pattern(node, 'fixedLine nationalNumberPattern'),
+        pattern(node, 'mobile nationalNumberPattern'),
+        pattern(node, 'pager nationalNumberPattern'),
+        pattern(node, 'tollFree nationalNumberPattern'),
+        pattern(node, 'premiumRate nationalNumberPattern'),
+        pattern(node, 'sharedCost nationalNumberPattern'),
+        pattern(node, 'personalNumber nationalNumberPattern'),
+        pattern(node, 'voip nationalNumberPattern'),
+        pattern(node, 'uan nationalNumberPattern'),
+        pattern(node, 'voicemail nationalNumberPattern')
+      ]
+    end
 
       def compile_formats(territory_nodes)
         format_nodes_for(territory_nodes).map do |node|
