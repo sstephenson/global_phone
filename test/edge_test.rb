@@ -15,7 +15,7 @@ module GlobalPhone
       # We don't include those formats in our database, so we fall
       # back to the closest match.
       number = context.parse("1520123456", "IE")
-      assert_equal "1520  123 456", number.national_format
+      assert_equal "1520 123 456", number.national_format
     end
   end
 end
