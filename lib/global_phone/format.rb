@@ -4,7 +4,7 @@ module GlobalPhone
   class Format < Record
     field 0, :pattern do |p| /^#{p}$/ end
     field 1, :national_format_rule
-    field 2, :leading_digits do |d| /^#{d}/ end
+    field 2, :leading_digits do |d| /^(#{d})/ end
     field 3, :national_prefix_formatting_rule
     field 4, :international_format_rule, :fallback => :national_format_rule
 
