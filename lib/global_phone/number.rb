@@ -81,7 +81,8 @@ module GlobalPhone
 
         prefix = prefix.gsub("$NP", national_prefix)
         prefix = prefix.gsub("$FG", match[1])
-        result = "#{prefix} #{match[2]}"
+
+        result = "#{prefix}#{match[2]}"
       end
 
       def national_prefix_formatting_rule
